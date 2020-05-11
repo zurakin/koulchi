@@ -1,12 +1,12 @@
 import tkinter as tk
 import tkinter.font as tkFont
 import pandas as pd
-import avito
+import avito, jumia
 import webbrowser, os, time
 from datetime import datetime
 
 width = 1000
-height = 380
+height = 300
 
 #colors
 bgColor = '#F8B195'
@@ -46,7 +46,7 @@ def search():
     try:
         max = int(textWidgets['max'].get('1.0', tk.END).strip())
     except:
-        max = float('inf')
+        max = 1000000
     avito_check = checkboxes['avito'][1].get()
     jumia_check = checkboxes['jumia'][1].get()
     boutika_check = checkboxes['boutika'][1].get()
@@ -55,6 +55,10 @@ def search():
     if avito_check:
         url = avito.get_url(item, city)
         shL = avito.scrape(url, min, max)
+        result.extend(shL)
+    if jumia_check:
+        url = jumia.get_url(item, min, max)
+        shL = jumia.scrape(url)
         result.extend(shL)
     return item, result
 
