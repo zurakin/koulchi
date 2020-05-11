@@ -72,7 +72,7 @@ def search_show(event=None):
 
 
 def search_save(event=None):
-    result=search()
+    item, result=search()
     df = pd.DataFrame(result)
     if not os.path.exists('searches'):
         os.mkdir('searches')
