@@ -1,8 +1,8 @@
 import tkinter as tk
 import tkinter.font as tkFont
 
-width = 1280
-height = 720
+width = 1000
+height = 380
 
 #colors
 bgColor = '#F8B195'
@@ -15,8 +15,12 @@ ButtonColor = '#C06C84'
 
 
 root = tk.Tk()
+
+#Fonts
 F1 = tkFont.Font(family="Arial Black", size=20)
 F2 = tkFont.Font(family="Baskerville", size=15)
+
+
 root.configure(bg = bgColor)
 root.title('Koulchi')
 root.geometry(f'{width}x{height}')
@@ -33,47 +37,55 @@ def add_text(name,row, column, width=None, font=F1,  default=None, colspan = 1, 
         tw.insert(tk.END,default)
         tw.configure(fg=textColor)
 
+def add_label(name, text, row, column, font=F1, textCOlor=textColor):
+    lbl=tk.Label(root,text=text, font=font, bg=bgColor)
+    lbl.grid(row=row,column=column)
+    labels[name]=lbl
+
+def add_checkbox(name, text, row, column):
+    var = tk.IntVar()
+    box = tk.Checkbutton(root, text=text, variable=var, font=F2)
+    box.configure(bg=checkBoxColor)
+    box.grid(row=row, column = column)
+    box.select()
+    checkboxes[name]=[box, var]
+
+def add_button(name, text, command, row, column):
+    b=tk.Button(root,text=text,command=command, height=4, width=20, bg=ButtonColor, font=F2)
+    b.grid(row=row,column=column, columnspan=2)
+    buttons[name] = b
+
+labels = {}
 textWidgets = {}
+checkboxes = {}
+buttons = {}
 
 add_text(name='searchBar',row=0, column=1, colspan=4, width='40',
     default='What are you looking for?')
 
+add_label('source', 'Source: ', 1, 0)
 
-srcLabel=tk.Label(root,text="Source: ", font=F1, bg=bgColor)
-srcLabel.grid(row=1,column=0)
+add_checkbox('avito', 'avito', 1, 1)
+add_checkbox('jumia', 'jumia', 1, 2)
+add_checkbox('boutika', 'boutika', 1, 3)
+add_checkbox('ubuy', 'ubuy', 1,4)
 
-avitoCheck = tk.IntVar()
-avito = tk.Checkbutton(root, text="Avito", variable=avitoCheck, font=F2)
-avito.configure(bg=checkBoxColor)
-avito.grid(row=1, column = 1)
-avito.select()
+add_label('city', 'City: ', 2, 0)
+add_text(name='city',row=2,column=2, colspan=1,width=10, font=F1,default='Maroc',textColor='#6C5B7B')
 
-jumiaCheck = tk.IntVar()
-jumia = tk.Checkbutton(root, text="Jumia", variable=jumiaCheck, font=F2)
-jumia.configure(bg=checkBoxColor)
-jumia.grid(row=1, column = 2)
-jumia.select()
+add_label('price', 'Price Filter: ', 3, 0)
+add_label('-', '-', 3, 2)
 
-boutikaCheck = tk.IntVar()
-boutika = tk.Checkbutton(root, text="Boutika", variable=boutikaCheck, font=F2)
-boutika.configure(bg=checkBoxColor)
-boutika.grid(row=1, column = 3)
-boutika.select()
-
-ubuyCheck = tk.IntVar()
-ubuy = tk.Checkbutton(root, text="Ubuy", variable=ubuyCheck, font=F2)
-ubuy.configure(bg=checkBoxColor)
-ubuy.grid(row=1, column = 4)
-ubuy.select()
-
-city=tk.Text(root,height=1,width=20, font=F1)
-city.grid(row=2,column=2, columnspan=2)
-city.insert(tk.END,'Maroc')
-city.configure(fg='#6C5B7B')
-
-priceLabel=tk.Label(root,text="Price Filter: ", font=F1, bg=bgColor)
-priceLabel.grid(row=3,column=0)
+add_text('min', row=3, column=1, colspan=1, width=10, default='Min')
+add_text('max', 3, 3, width=10, default='Max')
 
 
+def search_show():
+    pass
+add_button('search_show', 'Search & Show', search_show, 4, 1)
+
+def search_save():
+    pass
+add_button('search_save', 'Search & Save', search_save, 4, 2)
 
 root.mainloop()
